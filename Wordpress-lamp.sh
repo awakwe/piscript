@@ -3,7 +3,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install apache2 php libapache2-mod-php mysql-server php-mysql -y
 sudo systemctl start mysql.service
 sudo service apache2 restart
-cd/var/www/html/
+cd /var/www/html/
 sudo rm*
 sudo wget http://wordpress.org/latest.tar.gz
 sudo tar xzf latest.tar.gz
