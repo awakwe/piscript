@@ -10,10 +10,10 @@ sudo tar xzf latest.tar.gz
 sudo mv wordpress/* .
 sudo rm -rf wordpress latest.tar.gz
 sudo chown -R www-data: .
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar 
 sudo mv wp-cli.phar /usr/local/bin/wp
 mysql -u root -e "CREATE DATABASE KasaDatabase";
 Sudo mysql -u root -p "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'kasatech1010!'";
 sudo mysql_secure_installation
-Reboot
+sudo reboot
