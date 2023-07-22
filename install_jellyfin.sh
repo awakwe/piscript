@@ -25,10 +25,10 @@ curl -fsSL https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo gpg --dearmor 
 # Step 4: Add a repository configuration
 cat <<EOF | sudo tee /etc/apt/sources.list.d/jellyfin.sources
 Types: deb
-URIs: https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release )
-Suites: $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release )
+URIs: https://repo.jellyfin.org/ubuntu
+Suites: focal
 Components: main
-Architectures: $( dpkg --print-architecture )
+Architectures: arm64
 Signed-By: /etc/apt/keyrings/jellyfin.gpg
 EOF
 
