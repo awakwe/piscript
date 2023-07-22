@@ -9,37 +9,26 @@ pkg install proot-distro ffmpeg -y
 # Installing Ubuntu
 proot-distro install ubuntu
 
-# Logging into Ubuntu
-proot-distro login ubuntu
-
 # Updating and upgrading the packages in Ubuntu
-apt update && apt upgrade -y
+proot-distro login ubuntu -- apt update && apt upgrade -y
 
 # Installing necessary packages
-apt install sudo curl gnupg -y
+proot-distro login ubuntu -- apt install sudo curl gnupg -y
 
 # Step 3: Download the GPG signing key
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/jellyfin.gpg
+proot-distro login ubuntu -- bash -c 'sudo mkdir -p /etc/apt/keyrings && curl -fsSL https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/jellyfin.gpg'
 
 # Step 4: Add a repository configuration
-cat <<EOF | sudo tee /etc/apt/sources.list.d/jellyfin.sources
-Types: deb
-URIs: https://repo.jellyfin.org/ubuntu
-Suites: focal
-Components: main
-Architectures: arm64
-Signed-By: /etc/apt/keyrings/jellyfin.gpg
-EOF
+proot-distro login ubuntu -- bash -c 'echo -e "Types: deb\nURIs: https://repo.jellyfin.org/ubuntu\nSuites: focal\nComponents: main\nArchitectures: arm64\nSigned-By: /etc/apt/keyrings/jellyfin.gpg" | sudo tee /etc/apt/sources.list.d/jellyfin.sources'
 
 # Step 5: Update APT repositories
-sudo apt update
+proot-distro login ubuntu -- sudo apt update
 
 # Step 6: Install Jellyfin
-sudo apt install jellyfin
+proot-distro login ubuntu -- sudo apt install jellyfin
 
 # Creating a symbolic link for Jellyfin web client
-ln -s /usr/share/jellyfin/web /usr/lib/jellyfin/bin/jellyfin-web
+proot-distro login ubuntu -- ln -s /usr/share/jellyfin/web /usr/lib/jellyfin/bin/jellyfin-web
 
 # Running Jellyfin
-jellyfin
+proot-distro login ubuntu -- jellyfin
