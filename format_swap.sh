@@ -1,10 +1,23 @@
 #!/bin/bash
 
+# Check if the script was run with sudo
+if [ "$EUID" -ne 0 ]; then 
+  echo "Please run as root"
+  exit
+fi
+
+# Check if device path argument was provided
+if [ -z "$1" ]; then
+  echo "Please provide the device path as an argument."
+  echo "For example: sudo ./format_and_setup_swap.sh /dev/sdb"
+  exit 1
+fi
+
 # Define log file
 LOG_FILE="format_and_setup_swap.log"
 
 # Define device path
-read -p "Please enter the device path (e.g., /dev/sdb): " DEVICE_PATH
+DEVICE_PATH="$1"
 
 # Start logging
 echo "Starting script at $(date)" | tee $LOG_FILE
@@ -12,15 +25,6 @@ echo "Starting script at $(date)" | tee $LOG_FILE
 # Check whether the specified path corresponds to a device
 if [ ! -b "$DEVICE_PATH" ]; then
     echo "$DEVICE_PATH is not a device. Please check the device path and try again." | tee -a $LOG_FILE
-    exit 1
-fi
-
-# Confirm with the user
-read -p "All data on $DEVICE_PATH will be lost! Are you sure? [y/N] " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    echo "Aborted." | tee -a $LOG_FILE
     exit 1
 fi
 
